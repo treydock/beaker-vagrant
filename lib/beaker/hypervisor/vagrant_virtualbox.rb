@@ -69,6 +69,10 @@ class Beaker::VagrantVirtualbox < Beaker::Vagrant
 
     provider_section << "      vb.customize [\"modifyvm\", :id, \"--natdnsproxy1\", \"#{host['natdns']}\"]\n" unless host['natdns'].nil?
 
+    if host['nic_type']
+      provider_section << "      vb.customize ['modifyvm', :id, '--nictype1', '#{host['nic_type']}']"
+    end
+
     provider_section << "      vb.gui = true\n" unless host['vb_gui'].nil?
 
     provider_section << "      [\"modifyvm\", :id, \"--cpuidset\", \"1\",\"000206a7\",\"02100800\",\"1fbae3bf\",\"bfebfbff\"\]" if /osx/i.match(host['platform'])
